@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PA4 A-Frame VR — 241629</title>
+
+  <script src="https://aframe.io/releases/1.8.0/aframe.min.js"></script>
+  <script src="components.js"></script>
+
+  <style>
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #050819;
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+
+<body>
+  <a-scene
+    background="color: #050819"
+    fog="type: exponential; color: #101632; density: 0.012"
+    stats
+    renderer="colorManagement: true">
+
+    <a-assets>
+      <img id="expoGroundTexture" src="textures/expo-ground.svg">
+      <img id="expoPanelTexture" src="textures/expo-panel.svg">
+      <img id="expoAccentTexture" src="textures/expo-accent.svg">
+    </a-assets>
+
+    <a-sky color="#070B20"></a-sky>
+
+    <a-entity light="type: ambient; color: #9BB8FF; intensity: 0.65"></a-entity>
+    <a-entity
+      light="type: directional; color: #FFFFFF; intensity: 1.2"
+      position="-3 8 4">
+    </a-entity>
+
+    <!-- Textured ground -->
+    <a-entity
+      id="gallery-ground"
+      geometry="primitive: plane; width: 60; height: 60"
+      rotation="-90 0 0"
+      position="0 0 0"
+      material="color: #FFFFFF; roughness: 0.9; metalness: 0.05"
+      x1629-texture="src: #expoGroundTexture; repeat: 12 12; anisotropy: 8">
+    </a-entity>
+
+    <!-- Corridor path -->
+    <a-entity
+      geometry="primitive: plane; width: 5; height: 14"
+      rotation="-90 0 0"
+      position="0 0.012 -2"
+      material="color: #111A3A; roughness: 0.75">
+    </a-entity>
+
+    <!-- Side light strips -->
+    <a-box
+      position="-2.55 0.04 -2"
+      width="0.06"
+      height="0.08"
+      depth="14"
+      material="color: #19D9FF; emissive: #087A9E; emissiveIntensity: 0.7">
+    </a-box>
+
+    <a-box
+      position="2.55 0.04 -2"
+      width="0.06"
+      height="0.08"
+      depth="14"
+      material="color: #FF4FD8; emissive: #8A176D; emissiveIntensity: 0.7">
+    </a-box>
+
+    <!-- Student ID and variant panel -->
+    <a-entity position="0 2.3 5.6" scale="0.45 0.45 0.45">
+      <a-plane
+        width="4.8"
+        height="1.5"
+        material="color: #101A3C; opacity: 0.92">
+      </a-plane>
+
+      <a-text
+        value="STUDENT ID: 241629"
+        position="0 0.4 0.02"
+        align="center"
+        color="#FFFFFF"
+        width="4.4">
+      </a-text>
+
+      <a-text
+        value="ASTANA EXPO PAVILION"
+        position="0 0.05 0.02"
+        align="center"
+        color="#FFFFFF"
+        width="4.4">
+      </a-text>
+
+      <a-text
+        id="gallery-status"
+        value="Selected: none (0 of 6)"
+        position="0 -0.4 0.02"
+        align="center"
+        color="#55F4FF"
+        width="4.4">
+      </a-text>
+    </a-entity>
+
+    <!-- Camera rig and gaze cursor -->
+    <a-entity id="rig" position="0 0 8" wasd-controls>
+      <a-entity
+        id="camera"
+        camera
+        position="0 1.6 0"
+        look-controls>
+
+        <a-entity
+          id="gaze-cursor"
+          cursor="fuse: true; fuseTimeout: 1500"
+          raycaster="objects: .exhibit; far: 15; interval: 100"
+          position="0 0 -1"
+          geometry="primitive: ring; radiusInner: 0.012; radiusOuter: 0.02"
+          material="color: #35F5FF; shader: flat">
+        </a-entity>
+      </a-entity>
+    </a-entity>
+
+    <!-- EXPO-style corridor arches -->
+    <a-torus
+      position="0 3.2 2"
+      rotation="90 0 0"
+      radius="3"
+      radius-tubular="0.08"
+      material="color: #23DDF5; emissive: #087F99; emissiveIntensity: 0.45">
+    </a-torus>
+
+    <a-torus
+      position="0 3.2 -2"
+      rotation="90 0 0"
+      radius="3"
+      radius-tubular="0.06"
+      material="color: #D94BFF; emissive: #791A9A; emissiveIntensity: 0.35">
+    </a-torus>
+
+    <!-- Six exhibits: two rows 3 m apart, spanning 10 m -->
+    <a-entity
+      id="exhibit-1"
+      class="exhibit"
+      position="-1.5 1.4 3"
+      geometry="primitive: dodecahedron; radius: 0.65"
+      material="color: #48E6FF; roughness: 0.3; metalness: 0.55"
+      x1629-motion="type: pulse; amplitude: 0.12; period: 2.4; phase: 0"
+      x1629-exhibit="name: Expo Sphere; info: A glowing form inspired by the EXPO sphere">
+    </a-entity>
+
+    <a-entity
+      id="exhibit-2"
+      class="exhibit"
+      position="1.5 1.4 3"
+      geometry="primitive: octahedron; radius: 0.65"
+      material="color: #FF5BD7; roughness: 0.35; metalness: 0.45"
+      x1629-motion="type: pulse; amplitude: 0.12; period: 2.4; phase: 0.8"
+      x1629-exhibit="name: Energy Crystal; info: A geometric symbol of future energy">
+    </a-entity>
+
+    <a-entity
+      id="exhibit-3"
+      class="exhibit"
+      position="-1.5 1.4 -2"
+      geometry="primitive: cylinder; radius: 0.5; height: 1.1"
+      material="color: #FFC94A; roughness: 0.4; metalness: 0.35"
+      x1629-motion="type: pulse; amplitude: 0.12; period: 2.4; phase: 1.6"
+      x1629-exhibit="name: Solar Column; info: A column representing clean solar power">
+
+      <a-torus
+        position="0 0.15 0"
+        rotation="90 0 0"
+        radius="0.62"
+        radius-tubular="0.035"
+        material="color: #FFF1A3; emissive: #9C6900">
+      </a-torus>
+    </a-entity>
+
+    <a-entity
+      id="exhibit-4"
+      class="exhibit"
+      position="1.5 1.4 -2"
+      geometry="primitive: box; width: 0.9; height: 0.9; depth: 0.9"
+      material="color: #58F0A8; roughness: 0.28; metalness: 0.5"
+      x1629-texture="src: #expoPanelTexture; repeat: 2 2; anisotropy: 8"
+      x1629-motion="type: pulse; amplitude: 0.12; period: 2.4; phase: 2.4"
+      x1629-exhibit="name: Green Pavilion; info: A pavilion celebrating sustainable design">
+    </a-entity>
+
+    <a-entity
+      id="exhibit-5"
+      class="exhibit"
+      position="-1.5 1.4 -7"
+      geometry="primitive: cone; radiusBottom: 0.65; radiusTop: 0.12; height: 1.2"
+      material="color: #8C7BFF; roughness: 0.32; metalness: 0.4"
+      x1629-motion="type: pulse; amplitude: 0.12; period: 2.4; phase: 3.2"
+      x1629-exhibit="name: Innovation Spire; info: A spire representing research and discovery">
+    </a-entity>
+
+    <a-entity
+      id="exhibit-6"
+      class="exhibit"
+      position="1.5 1.4 -7"
+      geometry="primitive: sphere; radius: 0.62"
+      material="color: #FF864A; roughness: 0.3; metalness: 0.45"
+      x1629-texture="src: #expoAccentTexture; repeat: 2 2; anisotropy: 8"
+      x1629-motion="type: pulse; amplitude: 0.12; period: 2.4; phase: 4"
+      x1629-exhibit="name: Future World; info: A bright sphere representing global cooperation">
+    </a-entity>
+
+    <!-- Decorative corridor supports -->
+    <a-cylinder position="-3.2 1.5 3" radius="0.08" height="3"
+      material="color: #203C72; emissive: #10244D"></a-cylinder>
+    <a-cylinder position="3.2 1.5 3" radius="0.08" height="3"
+      material="color: #203C72; emissive: #10244D"></a-cylinder>
+
+    <a-cylinder position="-3.2 1.5 -2" radius="0.08" height="3"
+      material="color: #203C72; emissive: #10244D"></a-cylinder>
+    <a-cylinder position="3.2 1.5 -2" radius="0.08" height="3"
+      material="color: #203C72; emissive: #10244D"></a-cylinder>
+
+    <a-cylinder position="-3.2 1.5 -7" radius="0.08" height="3"
+      material="color: #203C72; emissive: #10244D"></a-cylinder>
+    <a-cylinder position="3.2 1.5 -7" radius="0.08" height="3"
+      material="color: #203C72; emissive: #10244D"></a-cylinder>
+
+  </a-scene>
+</body>
+</html>
